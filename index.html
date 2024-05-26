@@ -1,14 +1,58 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Project: Library (JavaScript Course)</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Library (JavaScript Course)</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
 
-        <script src="script.js"></script>
-    </body>
+      <div class="header">
+        Library
+      </div>
+
+      <div class="sidebar">
+
+        <form>
+          <fieldset>
+            <div>ADD New Book:</div>
+            <div>
+              <label for="author">Author</label>
+              <input id="author" class="author" type="text">
+            </div>
+
+            <div>
+              <label for="title">Title</label>
+              <input id="title" class="title" type="text">
+            </div>
+
+            <div>
+              <label for="pages">Pages</label>
+              <input id="pages" class="pages" type="number">
+            </div>
+
+            <div>
+              <div>already read?</div>
+              <input type="radio" id="radioBtn" class="radio" value="true" name="radio">
+              <label for="radioTrueBtn">yes</label>
+              <input type="radio" id="radioBtn" class="radio" value="false" name="radio" checked>
+              <label for="radioFalseBtn">no</label>
+            </div>
+
+            <div><button id="btnAdd" class="btnAdd">SAVE</button></div>
+          </fieldset>
+        </form>
+      </div>
+
+      <div class="main">
+
+      </div>
+  </div>
+
+
+  <script src="script.js"></script>
+  </body>
 </html>
