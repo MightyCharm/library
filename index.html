@@ -11,44 +11,45 @@
     <div class="container">
 
       <div class="header">
-        Library
+        <div class="header-txt">Library</div>
+        <button id="btnNewBook" class="btnNewBook">NEW BOOK</button>
       </div>
 
-      <div class="sidebar">
-
-        <form>
-          <fieldset>
-            <div>ADD New Book:</div>
-            <div>
+      <div class="divForm">
+       
+        <form id="form" class="form">
+          <fieldset class="fieldset">
+            <div class="divForm-1">
               <label for="author">Author</label>
               <input id="author" class="author" type="text">
             </div>
 
-            <div>
+            <div class="divForm-1">
               <label for="title">Title</label>
               <input id="title" class="title" type="text">
             </div>
 
-            <div>
+            <div class="divForm-1">
               <label for="pages">Pages</label>
               <input id="pages" class="pages" type="number">
             </div>
 
-            <div>
-              <div>already read?</div>
-              <input type="radio" id="radioBtn" class="radio" value="true" name="radio">
+            <div class="divForm-2">
+              <div class="divForm-2-text">already read?</div>
               <label for="radioTrueBtn">yes</label>
-              <input type="radio" id="radioBtn" class="radio" value="false" name="radio" checked>
+              <input type="radio" id="radioBtn" class="radio" value="true" name="radio">
               <label for="radioFalseBtn">no</label>
+              <input type="radio" id="radioBtn" class="radio" value="false" name="radio" checked>
+              
             </div>
 
-            <div><button id="btnAdd" class="btnAdd">SAVE</button></div>
+            <div><button id="btnAdd" class="btnAdd">ADD</button></div>
           </fieldset>
         </form>
       </div>
 
       <div class="main">
-
+          <div>THIS IS MY MAIN CONTENT THIS IS MY MAIN CONTENT</div>
       </div>
   </div>
 

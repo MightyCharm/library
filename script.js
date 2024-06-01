@@ -1,12 +1,23 @@
 
+const btnNewBook = document.querySelector("#btnNewBook");
 const btnAdd = document.querySelector("#btnAdd");
+const form = document.querySelector("#form");
 
 const inputAuthor = document.querySelector("#author");
 const inputTitle = document.querySelector("#title");
 const inputPages = document.querySelector("#pages");
 const radioBtn = document.querySelector("#radioBtn");
 
-function getForm() {
+form.classList.add("hidden"); // make form invisible
+
+function openForm() {
+    console.log("openForm()");
+    form.classList.remove("hidden");
+    btnNewBook.disabled = true;
+}
+
+
+function getData() {
     let author = inputAuthor.value;
     let title = inputTitle.value;
     let pages = inputPages.value;
@@ -18,16 +29,16 @@ function getForm() {
     console.log(read);
 
     if(author != "" && title != "" && pages != "" && read != "") {
-        console.log("form filled uuuuuh yeah")
+        console.log("form filled uuuuuh yeah");
+        form.classList.add("hidden");
+        btnNewBook.classList.remove("hidden");
+        btnNewBook.disabled = false;
     } else {
         console.log("There is something missing huh!?");
     }
 
     
 }
-
-
-
 
 
 const myLibrary = [];
@@ -55,5 +66,9 @@ const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
 
 btnAdd.addEventListener("click", (e) => {
     e.preventDefault();
-    getForm();
+    getData();
 });
+
+btnNewBook.addEventListener("click", () => {
+    openForm();
+})

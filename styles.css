@@ -8,11 +8,12 @@
     --bg-col: #060e39;
     --bg-col-header: #0f2171;
     --col-header: #fff;
-    --bg-col-sidebar: #0f2171;
-    --col-sidebar: #fff;
+    --bg-col-divForm: #0f2171;
+    --col-divForm: #fff;
     --bg-col-main: #264c9a;
     --col-main: blue;
 }
+
 body {
     background-color: var(--bg-col);
 }
@@ -21,8 +22,8 @@ body {
 /* main container*/
 .container {
     display: grid;
-    grid-template-rows: 1fr 5fr;
-    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 2fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr;
 
     width: 100vw;
     height: 100vh;
@@ -40,22 +41,64 @@ body {
 }
 
 /* sidebar*/
-.sidebar {
+.divForm {
+    height: 50%;
+    width: 100%;
     grid-row: 2 / 3;
-    grid-column: 1 / 2;
+    grid-column: 2 / 3;
+    z-index: 1;
 
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 1fr;
 
-    background-color: var(--bg-col-sidebar);
-    color: var(--col-sidebar);
+    background-color: var(--bg-col-divForm);
+    color: var(--col-divForm);
     border: 3px solid deeppink;
-    font-size: 1rem;
+    font-size: 1.5rem;
+}
+
+.fieldset {
+
+    display: grid;
+    row-gap: 0.5rem;
+    border: none;
+    
+}
+
+.btnNewBook {
+    height: 50px;
+    width: 100px;
+}
+
+.divForm-1 {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+
+}
+
+.divForm-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 0.5rem;
+}
+
+.divForm-2-text {
+    grid-column: 1 / 3;
+}
+
+.btnAdd {
+    width: 100px;
+    height: 50px;
 }
 
 /* main */
 .main {
-    grid-column: 2 / 3;
+    grid-row: 2 / 4;
+    grid-column: 1 / 4;
     background-color: var(--bg-col-main);
     color: var(--col-main);
+}
+
+.hidden {
+    visibility: hidden;
 }
