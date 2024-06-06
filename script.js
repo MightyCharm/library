@@ -8,7 +8,7 @@ const inputTitle = document.querySelector("#title");
 const inputPages = document.querySelector("#pages");
 const radioBtn = document.querySelector("#radioBtn");
 
-form.classList.add("hidden"); // make form invisible
+//form.classList.add("hidden"); // make form invisible
 
 function openForm() {
     console.log("openForm()");
