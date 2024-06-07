@@ -9,50 +9,52 @@
   </head>
   <body>
     <div class="container">
-
-      <div class="header">
+      <div class="box-1">
         <div class="header-txt">Library</div>
-        <button id="btnNewBook" class="btnNewBook">NEW BOOK</button>
+        <button id="btnNewBook" class="btn">NEW BOOK</button>
       </div>
 
-      <div class="divForm">
+      <div class="box-2">
         <form id="form" class="form">
           <fieldset class="fieldset">
             <div class="divForm-1">
               <label for="author">Author</label>
-              <input id="author" class="author" type="text">
+              <input id="author" class="author" type="text" required>
             </div>
 
             <div class="divForm-1">
               <label for="title">Title</label>
-              <input id="title" class="title" type="text">
+              <input id="title" class="title" type="text" required>
             </div>
 
             <div class="divForm-1">
               <label for="pages">Pages</label>
-              <input id="pages" class="pages" type="number">
+              <input id="pages" class="pages" type="number" required>
             </div>
 
             <div class="divForm-2">
               <div class="divForm-2-text">Book already read?</div>
+              
+              <input type="radio" id="radio" class="radio" value="true" name="radio">
               <label for="radioTrueBtn">yes</label>
-              <input type="radio" id="radioBtn" class="radio" value="true" name="radio">
+             
+              <input type="radio" id="radio" class="radio" value="false" name="radio" checked>
               <label for="radioFalseBtn">no</label>
-              <input type="radio" id="radioBtn" class="radio" value="false" name="radio" checked>
               
             </div>
 
-            <div><button id="btnAdd" class="btnAdd">ADD</button></div>
+            <div><button id="btnAdd" class="btn">ADD</button></div>
           </fieldset>
         </form>
       </div>
 
-      <div class="main">
+      <div class="box-3">
           <div>THIS IS MY MAIN CONTENT THIS IS MY MAIN CONTENT</div>
       </div>
+
+      <div class="img-reference"><a href="https://www.pexels.com/photo/assorted-books-on-shelf-1290141/">Photo by Ivo Rainha:</a></div>
   </div>
 
-  <div>Photo by Ivo Rainha: https://www.pexels.com/photo/assorted-books-on-shelf-1290141/</div>
 
   <script src="script.js"></script>
   </body>

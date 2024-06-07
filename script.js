@@ -6,9 +6,12 @@ const form = document.querySelector("#form");
 const inputAuthor = document.querySelector("#author");
 const inputTitle = document.querySelector("#title");
 const inputPages = document.querySelector("#pages");
-const radioBtn = document.querySelector("#radioBtn");
+const radioButtons = document.querySelectorAll("#radio");
+const myLibrary = [];
+form.classList.add("hidden"); // make form invisible
 
-//form.classList.add("hidden"); // make form invisible
+
+
 
 function openForm() {
     console.log("openForm()");
@@ -17,33 +20,51 @@ function openForm() {
 }
 
 
-function getData() {
-    let author = inputAuthor.value;
-    let title = inputTitle.value;
-    let pages = inputPages.value;
-    let read = radioBtn.value;
+function getData(e) {
+    console.log("getData()");
+    let radioVal;
+    radioButtons.forEach( (btn) => {
+        if(btn.checked === true) {
+            console.log(btn.value);
+            radioVal = btn.value;
+        }
+    })
+ 
+    console.log(`Author: ${author.value.length}`);
+    console.log(`Title: ${title.value.length}`);
+    console.log(`Pages: ${pages.value.length}`);
+    console.log(`Radio Button Value: ${radioVal}`);
     
-    console.log(author);
-    console.log(title);
-    console.log(pages);
-    console.log(read);
-
-    if(author != "" && title != "" && pages != "" && read != "") {
+    // if user entered everything, create object
+    if(author.value.length > 0 && title.value.length > 0 && pages.value.length > 0) {
+        e.preventDefault()
         console.log("form filled uuuuuh yeah");
         form.classList.add("hidden");
         btnNewBook.classList.remove("hidden");
         btnNewBook.disabled = false;
     } else {
-        console.log("There is something missing huh!?");
+        // something was missing in user input
+        // 1. check what is missing
+        // 2. inform user
+        console.log("Input not complete. What is missing? check length of inputs");
+        
+        if(author.value.length === 0) {
+            console.log("author empty");
+        }
+        if(title.value.length === 0) {
+            console.log("title empty");
+        }
+        if(pages.value.length === 0) {
+            console.log("pages empty");
+        }
+
+  
+
+
     }
 
     
 }
-
-
-const myLibrary = [];
-
-
 
 
 function Book(title, author, pages, read) {
@@ -60,15 +81,16 @@ function addBookToLibrary() {
 
 }
 
-const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
 //console.log(theHobbit.info());
 
 
 btnAdd.addEventListener("click", (e) => {
-    e.preventDefault();
-    getData();
+    console.log("btnAdd EventListener click");
+    
+    getData(e);
 });
 
 btnNewBook.addEventListener("click", () => {
+    console.log("btnNewBook EventListener click");
     openForm();
 })
