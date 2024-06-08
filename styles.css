@@ -141,6 +141,33 @@ body {
     grid-column: 1 / 4;
     background-color: var(--bg-col-main);
     color: var(--col-main);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+
+.card {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+
+    width:400px;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 1.0);
+    font-size: 1.2rem;
+    padding: 1rem;
+
+}
+
+.card-read {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.card-btnRead {
+    border: 1px solid red;
 }
 
 .img-reference {
