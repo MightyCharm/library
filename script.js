@@ -26,7 +26,6 @@ function resetInput() {
     inputPages.value = "";
 }
 
-
 function readBook() {
     console.log("read Book!");
 }
@@ -97,58 +96,99 @@ function Book(title, author, pages, read) {
 }
 
 
-function removeBookFromLibrary(btn) {
-    console.log("remove Card!");
-    console.log(btn);
-    console. log(btn.getAttribute('data-id'));
-    //  array.splice(index, 1)
-    //console.log(myLibrary.splice(index, 1));
-
-    /*myLibrary.forEach( (obj) => {
-        console.log(obj);
-    })*/
-    // 1. remove with index element from array
-    // 2. rerender array...element wont show up
-    
-}
-
 function addBookToLibrary(obj) {
     console.log("function addBookToLibrary");
     myLibrary.push(obj);
-    console.log("all objects in the array:");
-    myLibrary.forEach( (obj) => {
-        console.log(obj);
-    })
     // get the last (newest) object in the array
     let element = myLibrary[myLibrary.length-1];
     //console.log(element.info());
     
     mainContent.innerHTML += 
-    `<div id="card-${element.index}" class="card">
+    `<div id="card" class="card">
         <div class="card-author">${element.author}</div>
         <div class="card-title">${element.title}</div>
         <div class="card-pages">${element.pages}</div>
         <div class="card-read">
-        <div id="card-btnRead" class="card-read-txt">${element.read == "true" ? "book read": "not read"}</div>
-            <button id="card-btnRead-${element.index}" class="card-btnRead">READ</button>
+            <div id="card-read-txt" class="card-read-txt">${element.read == "true" ? "book read": "not read"}</div>
+            <button id="card-btnRead" class="card-btnRead" data-id="${element.index}">READ</button>
         </div>
-        <button id="card-btnRemove" data-id="${element.index}" class="card-btnRemove">REMOVE</button>
+        <button id="card-btnRemove" class="card-btnRemove" data-id="${element.index}">REMOVE</button>
     </div>`
     
     //let btnRemove = document.querySelector(`#card-btnRemove`);
-    let btnRead = document.querySelector(`#card-btnRead-${element.index}`);
-    
+    let btnReadList = document.querySelectorAll("#card-btnRead");
+    // console.log(btnReadList);
     //let btnList = document.querySelectorAll('button[id^="card-btnRemove"]');
-    let btnList = document.querySelectorAll('#card-btnRemove');
-    console.log(btnList);
-    btnList.forEach( (btn) => {
+    let btnRemoveList = document.querySelectorAll("#card-btnRemove");
+    //console.log(btnList);
+    btnRemoveList.forEach( (btn) => {
         btn.addEventListener("click", () => {
             removeBookFromLibrary(btn);
         });
     })
+        
+    btnReadList.forEach( (btn) => {
+        btn.addEventListener("click", () => {
+            readBook(btn);
+        })
+    })
+}
+
+function removeBookFromLibrary(btn) {
+    console.log("function removeBookFromLibrary");
+    console.log(btn);
+     // 1. remove with index element from array
+    //console. log(btn.getAttribute('data-id'));
+    let index = btn.getAttribute('data-id');
+    myLibrary.splice(index, 1);
+
+    // If one obj of array is removed, every object needs a new index (=data-id)
+    // so first object has always data-id 0 and from there every object + 1
+    let newIndex = 0;
+    myLibrary.forEach( (obj) => {
+        obj.index= newIndex; // iterate over array of objects and update index
+        newIndex++;
+    })
+    console.log(myLibrary);
+
+    // 2. rerender array...element wont show up
+    mainContent.innerHTML = "";
+    myLibrary.forEach( (obj) => {
+        // add obj
+        mainContent.innerHTML += `
+            <div id="card" class="card">
+                <div class="card-author">${obj.author}</div>
+                <div class="card-title">${obj.title}</div>
+                <div class="card-pages">${obj.pages}</div>
+                <div class="card-read">
+                    <div id="card-read-txt" class="card-read-txt">${obj.read == "true" ? "book read": "not read"}</div>
+                    <button id="card-btnRead" class="card-btnRead" data-id="${obj.index}">READ</button>
+                </div>
+                <button id="card-btnRemove" class="card-btnRemove" data-id="${obj.index}">REMOVE</button>
+            </div>
+            `
+    });
+
+     //let btnRemove = document.querySelector(`#card-btnRemove`);
+     let btnReadList = document.querySelectorAll("#card-btnRead");
+     // console.log(btnReadList);
+     //let btnList = document.querySelectorAll('button[id^="card-btnRemove"]');
+     let btnRemoveList = document.querySelectorAll("#card-btnRemove");
+     //console.log(btnList);
+     btnRemoveList.forEach( (btn) => {
+         btn.addEventListener("click", () => {
+             removeBookFromLibrary(btn);
+         });
+     })
+ 
+         
+     btnReadList.forEach( (btn) => {
+         btn.addEventListener("click", () => {
+             readBook(btn);
+         })
+     })
+
     
-    //btnRemove.addEventListener("click", removeCard);
-    btnRead.addEventListener("click", readBook)
 }
 
 btnAdd.addEventListener("click", (e) => {
