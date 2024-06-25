@@ -15,23 +15,72 @@ const bgInvalid = "rgba(250, 50, 10, 0.6)";
 //boxForm.style.display = "none";
 
 function resetColors() {
+    console.log("function resetColors()");
     inputAuthor.style.backgroundColor = bgNormal;
     inputTitle.style.backgroundColor = bgNormal;
     inputPages.style.backgroundColor = bgNormal;
 }
 
 function resetInput() {
+    console.log("function resetInput()");
     inputAuthor.value = "";
     inputTitle.value = "";
     inputPages.value = "";
 }
 
-function readBook() {
-    console.log("read Book!");
+function readBook(obj) {
+    // using attribute data-id (=index of array  myLibrary) of obj button
+    // tzo get the card where btn was pressed
+    console.log("function readBook()");
+    console.log(obj);
+    let index = obj.getAttribute('data-id');
+    let card = myLibrary[index];
+    console.log(card.read);
+    // change attribute to read = true if false...
+    if(card.read === "true") card.read = "false";
+    else card.read = "true";
+    console.log(card.read);
+    // rerender cards
+     // 2. rerender array...element won't show up
+     mainContent.innerHTML = "";
+     myLibrary.forEach( (obj) => {
+         // add obj
+         mainContent.innerHTML += `
+             <div id="card" class="card">
+                 <div class="card-author">${obj.author}</div>
+                 <div class="card-title">${obj.title}</div>
+                 <div class="card-pages">${obj.pages}</div>
+                 <div class="card-read">
+                     <div id="card-read-txt" class="card-read-txt">${obj.read == "true" ? "book read": "book not read"}</div>
+                     <button id="card-btnRead" class="card-btnRead" data-id="${obj.index}">READ</button>
+                 </div>
+                 <button id="card-btnRemove" class="card-btnRemove" data-id="${obj.index}">REMOVE</button>
+             </div>
+             `
+     });
+
+     //let btnRemove = document.querySelector(`#card-btnRemove`);
+    let btnReadList = document.querySelectorAll("#card-btnRead");
+    // console.log(btnReadList);
+    //let btnList = document.querySelectorAll('button[id^="card-btnRemove"]');
+    let btnRemoveList = document.querySelectorAll("#card-btnRemove");
+    //console.log(btnList);
+    btnReadList.forEach( (btn) => {
+        btn.addEventListener("click", () => {
+            readBook(btn);
+        })
+    })
+
+    btnRemoveList.forEach( (btn) => {
+        btn.addEventListener("click", () => {
+            removeBookFromLibrary(btn);
+        });
+    })
+
 }
 
 function openForm() {
-    console.log("function openForm");
+    console.log("function openForm()");
     boxForm.style.display = "block"; // display box containing form
     // disable button as long form is opens
     btnNewBook.disabled = true;
@@ -41,11 +90,11 @@ function openForm() {
 }
 
 function getData(e) {
-    console.log("function getData");
+    console.log("function getData()");
     let radioVal;
     radioButtons.forEach( (btn) => {
         if(btn.checked === true) {
-            console.log(btn.value);
+            //console.log(btn.value);
             radioVal = btn.value;
         }
     })
@@ -84,6 +133,7 @@ function getData(e) {
 
 
 function Book(title, author, pages, read) {
+    console.log("function Book()");
     //console.log("inside Book");
     this.author = author,
     this.title = title,
@@ -93,11 +143,13 @@ function Book(title, author, pages, read) {
     this.info = function() {
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? "read" : "not read yet"}, index: ${this.index}`;
     }
+    console.log("========");
+    console.log(typeof this.read);
 }
 
 
 function addBookToLibrary(obj) {
-    console.log("function addBookToLibrary");
+    console.log("function addBookToLibrary()");
     myLibrary.push(obj);
     // get the last (newest) object in the array
     let element = myLibrary[myLibrary.length-1];
@@ -121,22 +173,23 @@ function addBookToLibrary(obj) {
     //let btnList = document.querySelectorAll('button[id^="card-btnRemove"]');
     let btnRemoveList = document.querySelectorAll("#card-btnRemove");
     //console.log(btnList);
+    btnReadList.forEach( (btn) => {
+        btn.addEventListener("click", () => {
+            readBook(btn);
+        })
+    })
+
     btnRemoveList.forEach( (btn) => {
         btn.addEventListener("click", () => {
             removeBookFromLibrary(btn);
         });
     })
         
-    btnReadList.forEach( (btn) => {
-        btn.addEventListener("click", () => {
-            readBook(btn);
-        })
-    })
 }
 
 function removeBookFromLibrary(btn) {
-    console.log("function removeBookFromLibrary");
-    console.log(btn);
+    console.log("function removeBookFromLibrary()");
+    //console.log(btn);
      // 1. remove with index element from array
     //console. log(btn.getAttribute('data-id'));
     let index = btn.getAttribute('data-id');
@@ -149,9 +202,9 @@ function removeBookFromLibrary(btn) {
         obj.index= newIndex; // iterate over array of objects and update index
         newIndex++;
     })
-    console.log(myLibrary);
+    //console.log(myLibrary);
 
-    // 2. rerender array...element wont show up
+    // 2. rerender array...element won't show up
     mainContent.innerHTML = "";
     myLibrary.forEach( (obj) => {
         // add obj
@@ -192,12 +245,12 @@ function removeBookFromLibrary(btn) {
 }
 
 btnAdd.addEventListener("click", (e) => {
-    //console.log("btnAdd EventListener click");
+    console.log("btnAdd EventListener click");
     getData(e);
 });
 
 btnNewBook.addEventListener("click", () => {
-    //console.log("btnNewBook EventListener click");
+    console.log("btnNewBook EventListener click");
     openForm();
 })
 
