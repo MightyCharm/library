@@ -21,17 +21,17 @@
         <form id="form" class="form">
             <div class="divForm-1">
               <label for="author">Author</label>
-              <input id="author" class="author" type="text" required>
+              <input id="author" class="author" type="text" maxlength="40" required>
             </div>
 
             <div class="divForm-1">
               <label for="title">Title</label>
-              <input id="title" class="title" type="text" required>
+              <input id="title" class="title" type="text" maxlength="40" required>
             </div>
 
             <div class="divForm-1">
               <label for="pages">Pages</label>
-              <input id="pages" class="pages" type="number" min="1" required>
+              <input id="pages" class="pages" type="number" min="1" oninput="validate_length()" maxlength="30" required>
             </div>
 
             <div class="divForm-2">
