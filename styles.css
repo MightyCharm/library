@@ -205,7 +205,7 @@ body {
 }
 .card-btnRead {
     align-self: center;
-    height: 35px; /**/
+    height: 35px;
     width: 80px;
     justify-self: end;
     border-radius: 10px;

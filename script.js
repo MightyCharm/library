@@ -130,27 +130,27 @@ function drawMainContent() {
 
 function addBookToLibrary(obj) {
     myLibrary.push(obj);
-    // get the newest object in the array
-    let element = myLibrary[myLibrary.length-1];
+    let element = myLibrary[myLibrary.length-1]; // get the newest object in the array
     drawMainContent(); // call function to rerender everything
 }
 
 function removeBookFromLibrary(btn) {
-    // 1. remove with index element from array
+    // remove an element from array using it's index
     let index = btn.getAttribute('data-id');
     myLibrary.splice(index, 1);
 
-    // if one obj of array is removed, every object needs a new index (=data-id) so first object has always data-id 0 and from there every object + 1
+    // if one obj of array is removed, every object needs a new index(=data-id),
+    // first object has always data-id=0 and from there every object + 1
     let newIndex = 0;
     myLibrary.forEach( (obj) => {
-        obj.index= newIndex; // iterate over array of objects and update index
+        obj.index= newIndex; // iterate over array of objects and update the index
         newIndex++;
     })
     drawMainContent();
 }
 
 function readBook(obj) {
-    // using attribute data-id (=index of array myLibrary) of obj button to get the card where btn was pressed
+    // using attribute data-id(=index of array myLibrary) of obj button to get the card where btn was pressed
     let index = obj.getAttribute('data-id');
     let card = myLibrary[index];
     // change attribute read
