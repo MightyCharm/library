@@ -1,6 +1,6 @@
 const btnNewBook = document.querySelector("#btnNewBook");
 const btnAdd = document.querySelector("#btnAdd");
-const boxForm = document.querySelector(".box-2");
+const boxForm = document.querySelector("#box-form");
 const inputAuthor = document.querySelector("#author");
 const inputTitle = document.querySelector("#title");
 const inputPages = document.querySelector("#pages");
@@ -8,16 +8,15 @@ const radioButtons = document.querySelectorAll(".radio");
 const radioFalse = document.querySelector("#radioFalse");
 const mainContent = document.querySelector("#box-3");
 
-
 const bgNormal = "rgba(255, 255, 255, 1)"
 const bgInvalid = "rgba(210, 210, 210, 1)";
-boxForm.style.display = "none";
 
 // class for managing the library
 class Library {
 
     constructor() {
         this.myLibrary = [];
+
     }
 
     getLengthLibrary() {
@@ -36,10 +35,7 @@ class Library {
         if ((author.value.length > 0) && (title.value.length > 0) && (pages.value.length > 0) && (Number(pages.value) > 0) && Number(pages.value[0] != 0)) {
             //e.preventDefault()
             let obj = new Book(author.value, title.value, pages.value, radioVal);  // create new object
-            this.addBookToLibrary(obj); // call function to push new object into an array
-            boxForm.style.display = "none"; // do not display box containing form
-            btnNewBook.classList.remove("hidden"); // make button visible and active again 
-            btnNewBook.disabled = false;
+            this.addBookToLibrary(obj); // call function to push new object into an array        
             radioFalse.checked = true;
 
         } else {
@@ -58,9 +54,7 @@ class Library {
             if (author.value.length === 0 &&
                 title.value.length === 0 &&
                 pages.value.length === 0) {
-                boxForm.style.display = "none"; // do not display box containing form
-                btnNewBook.classList.remove("hidden"); // make button visible and active again
-                btnNewBook.disabled = false;
+            
                 radioFalse.checked = true;
             }
         }
@@ -70,39 +64,6 @@ class Library {
     addBookToLibrary(obj) {
         this.myLibrary.push(obj);
         this.drawMainContent(); // call function to rerender everything
-    }
-
-    drawMainContent() {
-        mainContent.innerHTML = "";
-        this.myLibrary.forEach((obj) => {
-            mainContent.innerHTML += `
-                <div id="card" class="card">
-                    <div class="card-author">${obj.author}</div>
-                    <div class="card-title">${obj.title}</div>
-                    <div class="card-pages">${obj.pages}</div>
-                    <div class="card-read">
-                        <div id="card-read-txt" class="card-read-txt">${obj.read == "true" ? "already read" : "not read yet"}</div>
-                        <button id="card-btnRead" class="card-btnRead" data-id="${obj.index}">READ</button>
-                    </div>
-                    <button id="card-btnRemove" class="card-btnRemove" data-id="${obj.index}">REMOVE</button>
-                </div>
-                `
-        });
-
-        let btnReadList = document.querySelectorAll("#card-btnRead"); // get list of all read buttons
-        let btnRemoveList = document.querySelectorAll("#card-btnRemove"); // get a list of all remove buttons
-
-        btnRemoveList.forEach((btn) => {
-            btn.addEventListener("click", () => {
-                this.removeBookFromLibrary(btn);
-            });
-        })
-
-        btnReadList.forEach((btn) => {
-            btn.addEventListener("click", () => {
-                this.readBook(btn);
-            })
-        })
     }
 
     removeBookFromLibrary(btn) {
@@ -142,7 +103,99 @@ class Book {
     }
 }
 
-class manageGUI {
+class GUI {
+
+    constructor() {
+        this.amount; // used for moving sidebar
+        this.speed = 5;
+        this.START_POSITION = boxForm.getBoundingClientRect().right;
+        console.log(this.START_POSITION);
+        
+    }
+
+    moveSidebar() {
+        console.log("Move Sidebar");
+        // check which direction
+        let direction = boxForm.getBoundingClientRect().right;
+        
+        
+        console.log(`boxForm: ${boxForm.style.left}`);
+        // sidebar is on screen
+        
+        if (direction > 0) {
+            console.log("slide out");
+            console.log(`this.amount: ${this.amount}`)
+            this.amount = - this.speed;
+
+            const moveSidebar = setInterval(() => {
+                boxForm.style.left = this.amount + "px";
+
+                this.amount -= this.speed;
+                //console.log(this.amount);
+                if (boxForm.getBoundingClientRect().right <= 0) {
+                    //console.log("clearInterval");
+                    clearInterval(moveSidebar);
+                }
+            }, 1);
+            
+        }
+    
+
+        
+        // sidebar is not visible
+        else {
+            console.log("slide in");
+            console.log(boxForm.getBoundingClientRect().right);
+            const moveSidebar = setInterval(() => {
+                boxForm.style.left = this.amount + "px";
+                this.amount += this.speed;
+                //console.log(this.amount);
+                if (boxForm.getBoundingClientRect().right >= this.START_POSITION) {
+                    //console.log("clearInterval");
+                    clearInterval(moveSidebar);
+                }
+            }, 1);
+
+        }
+
+        
+            
+    }
+
+    drawMainContent() {
+        mainContent.innerHTML = "";
+        this.myLibrary.forEach((obj) => {
+            mainContent.innerHTML += `
+                <div id="card" class="card">
+                    <div class="card-author">${obj.author}</div>
+                    <div class="card-title">${obj.title}</div>
+                    <div class="card-pages">${obj.pages}</div>
+                    <div class="card-read">
+                        <div id="card-read-txt" class="card-read-txt">${obj.read == "true" ? "already read" : "not read yet"}</div>
+                        <button id="card-btnRead" class="card-btnRead" data-id="${obj.index}">READ</button>
+                    </div>
+                    <button id="card-btnRemove" class="card-btnRemove" data-id="${obj.index}">REMOVE</button>
+                </div>
+                `
+        });
+
+        let btnReadList = document.querySelectorAll("#card-btnRead"); // get list of all read buttons
+        let btnRemoveList = document.querySelectorAll("#card-btnRemove"); // get a list of all remove buttons
+
+        btnRemoveList.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                this.removeBookFromLibrary(btn);
+            });
+        })
+
+        btnReadList.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                this.readBook(btn);
+            })
+        })
+    }
+
+
     /* function validates length of input for pages, because maxLength won't work for number input like it does with strings */
     validate_length() {
         let length_input = inputPages.value.length;
@@ -175,12 +228,15 @@ class manageGUI {
 
 // create object for managing the library and gui
 const library = new Library();
-const gui = new manageGUI();
+const gui = new GUI();
 
 btnAdd.addEventListener("click", (e) => {
     library.getData(e);
+    gui.moveSidebar();
+
 });
 
 btnNewBook.addEventListener("click", () => {
-    gui.openForm();
+    gui.moveSidebar();
 })
+
