@@ -1,22 +1,23 @@
 const btnNewBook = document.querySelector("#btnNewBook");
 const btnAdd = document.querySelector("#btnAdd");
-const boxForm = document.querySelector("#box-form");
+
 const inputAuthor = document.querySelector("#author");
 const inputTitle = document.querySelector("#title");
 const inputPages = document.querySelector("#pages");
+
 const radioButtons = document.querySelectorAll(".radio");
 const radioFalse = document.querySelector("#radioFalse");
-const mainContent = document.querySelector("#box-3");
 
-const bgNormal = "rgba(255, 255, 255, 1)"
-const bgInvalid = "rgba(210, 210, 210, 1)";
+const header = document.querySelector("#box-1");
+const boxForm = document.querySelector("#box-form");
+const mainContent = document.querySelector("#box-3");
 
 // class for managing the library
 class Library {
 
     constructor() {
         this.myLibrary = [];
-
+        this.checksPassed = false; // only if true, sidebar moves
     }
 
     getLengthLibrary() {
@@ -31,30 +32,33 @@ class Library {
                 radioVal = btn.value;
             }
         })
+        console.log(`inputAuthor.value: ${inputAuthor.value}`)
         // if user input is correct, create Book object and add it to array
-        if ((author.value.length > 0) && (title.value.length > 0) && (pages.value.length > 0) && (Number(pages.value) > 0) && Number(pages.value[0] != 0)) {
+        if ((inputAuthor.value.length > 0) && (inputTitle.value.length > 0) && (inputPages.value.length > 0) && (Number(inputPages.value) > 0) && Number(inputPages.value[0] != 0)) {
             //e.preventDefault()
-            let obj = new Book(author.value, title.value, pages.value, radioVal);  // create new object
+            let obj = new Book(inputAuthor.value, inputTitle.value, inputPages.value, radioVal);  // create new object
             this.addBookToLibrary(obj); // call function to push new object into an array        
             radioFalse.checked = true;
+            this.checksPassed = true;
 
         } else {
             // if user input wasn't correct
             gui.resetColors();
-            if (author.value.length === 0) {
-                inputAuthor.style.backgroundColor = bgInvalid;
+            if (inputTitle.value.length === 0) {
+                inputTitle.classList.add("errorInput");
             }
-            else if (title.value.length === 0) {
-                inputTitle.style.backgroundColor = bgInvalid;
+            if (inputAuthor.value.length === 0) {
+                inputAuthor.classList.add("errorInput");
             }
-            else if (pages.value.length === 0 || Number(pages.value) <= 0 || Number(pages.value[0]) === 0) {
-                inputPages.style.backgroundColor = bgInvalid;
+
+            if (inputPages.value.length === 0 || Number(pages.value) <= 0 || Number(pages.value[0]) === 0) {
+                inputPages.classList.add("errorInput");
             }
             /* should check if nothing was added at all, so maybe user don't want to add anything and just pressed the wrong button */
-            if (author.value.length === 0 &&
-                title.value.length === 0 &&
-                pages.value.length === 0) {
-            
+            if (inputAuthor.value.length === 0 &&
+                inputTitle.value.length === 0 &&
+                inputPages.value.length === 0) {
+
                 radioFalse.checked = true;
             }
         }
@@ -63,7 +67,7 @@ class Library {
 
     addBookToLibrary(obj) {
         this.myLibrary.push(obj);
-        this.drawMainContent(); // call function to rerender everything
+        gui.drawMainContent(); // call function to rerender everything
     }
 
     removeBookFromLibrary(btn) {
@@ -78,7 +82,7 @@ class Library {
             obj.index = newIndex; // iterate over array of objects and update the index
             newIndex++;
         })
-        this.drawMainContent();
+        gui.drawMainContent();
     }
 
     readBook(obj) {
@@ -88,18 +92,7 @@ class Library {
         // change attribute read
         if (card.read === "true") card.read = "false";
         else card.read = "true";
-        this.drawMainContent();  // rerender cards
-    }
-}
-
-// class for creating books
-class Book {
-    constructor(title, author, pages, read) {
-        this.author = author,
-            this.title = title,
-            this.pages = pages,
-            this.read = read,
-            this.index = library.getLengthLibrary();
+        gui.drawMainContent();  // rerender cards
     }
 }
 
@@ -107,64 +100,104 @@ class GUI {
 
     constructor() {
         this.amount; // used for moving sidebar
-        this.speed = 5;
-        this.START_POSITION = boxForm.getBoundingClientRect().right;
-        console.log(this.START_POSITION);
-        
+        this.speed = 2.5;
+        this.sidebarVisible = true;
+        this.sidebarVisible = true;
+
+        btnNewBook.disabled = true;
+        this.setPositionSidebar();
+    }
+
+    setPositionSidebar = () => {
+        // sidebar positioning height
+        const refHeight = header.offsetHeight;
+        const targetTop = header.offsetTop + refHeight;
+        boxForm.style.top = `${targetTop}px`;
+        // sidebar positioning height
+
+        //this.start_position = boxForm.getBoundingClientRect().right;
+
+        let width = boxForm.getBoundingClientRect().width;
+        let posRight = boxForm.getBoundingClientRect().right;
+        //console.log(`width: ${width} posRight: ${posRight}`);
+        if (this.sidebarVisible === false) {
+            console.log("sidebar not visible, resize window, update position sidebar");
+            let widthSidebar = boxForm.getBoundingClientRect().width;
+            //console.log(`widthSidebar: ${widthSidebar}`);
+            boxForm.style.left = -widthSidebar + "px";
+
+        }
     }
 
     moveSidebar() {
-        console.log("Move Sidebar");
-        // check which direction
-        let direction = boxForm.getBoundingClientRect().right;
-        
-        
-        console.log(`boxForm: ${boxForm.style.left}`);
-        // sidebar is on screen
-        
-        if (direction > 0) {
-            console.log("slide out");
-            console.log(`this.amount: ${this.amount}`)
-            this.amount = - this.speed;
+        if (library.checksPassed === true) {
+            // if position right is equal to width, sidebar is visible on the page, so it should move out
+            if (this.sidebarVisible) {
+                console.log("move that boi out of my sight!");
 
-            const moveSidebar = setInterval(() => {
-                boxForm.style.left = this.amount + "px";
+                let subtract = 0;
+                let widthSidebar = boxForm.getBoundingClientRect().width;
+                const moveSidebarOut = setInterval(() => {
+                    // check position using "boxForm.style.left"
+                    // value must be the same as width of element but negative
+                    // boxForm.style.left = -300px  width element = 300px => sidebar is not visible anymore
+                    console.log(`subtract: ${subtract}  - widthSidebar: ${-widthSidebar}`);
+                    if (subtract <= - widthSidebar) {
+                        // set subtract equal to width of the sidebar to place boxForm exactly
+                        // at the border of the page after interval has finished
+                        subtract = - widthSidebar;
+                        boxForm.style.left = subtract + "px";
+                        btnNewBook.disabled = false;
+                        this.sidebarVisible = false;
 
-                this.amount -= this.speed;
-                //console.log(this.amount);
-                if (boxForm.getBoundingClientRect().right <= 0) {
-                    //console.log("clearInterval");
-                    clearInterval(moveSidebar);
-                }
-            }, 1);
-            
+                        //console.log(`moveSidebarOut done: ${boxForm.style.left} widthSidebar: ${-widthSidebar} (should be same values)`);
+                        clearInterval(moveSidebarOut);
+
+                    }
+                    subtract -= this.speed;
+                    boxForm.style.left = subtract + "px";
+
+                }, 1)
+
+
+            }
+            else {
+                // width sidebar changes if window gets bigger/smaller
+                // boxForm.style.left stays the same
+                this.setPositionSidebar();
+
+                let widthSidebar = boxForm.getBoundingClientRect().width;
+                let posRight = boxForm.getBoundingClientRect().right;
+                console.log("move that boi out, I can't see him!");
+                console.log(`boxForm.style.left: ${boxForm.style.left} widthSidebar: ${widthSidebar}  posRight: ${posRight}`);
+
+                let startVal = parseInt(boxForm.style.left);
+                const moveSidebarIn = setInterval(() => {
+                    startVal += this.speed;
+                    if (startVal >= 0) {
+                        console.log("done");
+                        console.log(`startVal: ${startVal}`);
+                        this.sidebarVisible = true;
+                        startVal = 0;
+                        boxForm.style.left = startVal + "px",
+                        clearInterval(moveSidebarIn);
+                        
+                    }
+                    console.log(startVal);
+                   
+                    boxForm.style.left = startVal + "px";
+                }, 1)
+
+            }
+
+
         }
-    
 
-        
-        // sidebar is not visible
-        else {
-            console.log("slide in");
-            console.log(boxForm.getBoundingClientRect().right);
-            const moveSidebar = setInterval(() => {
-                boxForm.style.left = this.amount + "px";
-                this.amount += this.speed;
-                //console.log(this.amount);
-                if (boxForm.getBoundingClientRect().right >= this.START_POSITION) {
-                    //console.log("clearInterval");
-                    clearInterval(moveSidebar);
-                }
-            }, 1);
-
-        }
-
-        
-            
     }
 
     drawMainContent() {
         mainContent.innerHTML = "";
-        this.myLibrary.forEach((obj) => {
+        library.myLibrary.forEach((obj) => {
             mainContent.innerHTML += `
                 <div id="card" class="card">
                     <div class="card-author">${obj.author}</div>
@@ -184,17 +217,16 @@ class GUI {
 
         btnRemoveList.forEach((btn) => {
             btn.addEventListener("click", () => {
-                this.removeBookFromLibrary(btn);
+                library.removeBookFromLibrary(btn);
             });
         })
 
         btnReadList.forEach((btn) => {
             btn.addEventListener("click", () => {
-                this.readBook(btn);
+                library.readBook(btn);
             })
         })
     }
-
 
     /* function validates length of input for pages, because maxLength won't work for number input like it does with strings */
     validate_length() {
@@ -207,9 +239,10 @@ class GUI {
     }
 
     resetColors() {
-        inputAuthor.style.backgroundColor = bgNormal;
-        inputTitle.style.backgroundColor = bgNormal;
-        inputPages.style.backgroundColor = bgNormal;
+        inputTitle.classList.remove("errorInput");
+        inputAuthor.classList.remove("errorInput");
+        inputPages.classList.remove("errorInput");
+
     }
 
     resetInput() {
@@ -226,6 +259,17 @@ class GUI {
     }
 }
 
+// class for creating books
+class Book {
+    constructor(title, author, pages, read) {
+        this.author = author,
+            this.title = title,
+            this.pages = pages,
+            this.read = read,
+            this.index = library.getLengthLibrary();
+    }
+}
+
 // create object for managing the library and gui
 const library = new Library();
 const gui = new GUI();
@@ -238,5 +282,14 @@ btnAdd.addEventListener("click", (e) => {
 
 btnNewBook.addEventListener("click", () => {
     gui.moveSidebar();
-})
+});
+
+
+window.onresize = function () {
+    if (!gui.sidebarVisible) {
+        gui.setPositionSidebar();
+    }
+}
+
+boxForm.style.left = "0px";
 

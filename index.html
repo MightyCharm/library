@@ -11,29 +11,28 @@
 
   <body>
     <div class="container">
-      <div class="box-1">
+      <div class="box-1" id="box-1">
         <div class="header-txt">Library</div>
         <button id="btnNewBook" class="btnNewBook btn">NEW BOOK</button>
         <div class="img-reference">
           Photo by Ivo Rainha: <a href="https://www.pexels.com/photo/assorted-books-on-shelf-1290141/">www.pexels.com</a>
         </div>
       </div>
-
-      
+     
         <form id="box-form" class="box-form">
           <div class="divForm-1">
-            <label for="title">Title</label>
-            <input id="title" class="title" type="text" maxlength="40" required>
+            <label class="label-title" for="title">Title</label>
+            <input id="title" class="input-title" type="text" maxlength="40" placeholder="Enter Book Title..." required>
           </div>
 
           <div class="divForm-1">           
-            <label for="author">Author</label>
-            <input id="author" class="author" type="text" maxlength="40" required>
+            <label class="label-author" for="author">Author</label>
+            <input id="author" class="input-author" type="text" maxlength="40" placeholder="Enter Name of Author..." required>
           </div>
 
           <div class="divForm-1">
-            <label for="pages">Pages</label>
-            <input id="pages" class="pages" type="number" min="1" oninput="gui.validate_length()" maxlength="30" required>
+            <label class="label-pages" for="pages">Pages</label>
+            <input id="pages" class="input-pages" type="number" min="1" oninput="gui.validate_length()" maxlength="30" placeholder="How number of pages..." required>8
           </div>
 
           <div class="divForm-2">
@@ -46,11 +45,9 @@
             <label for="radioFalse">no</label>
 
           </div>
-
           <div><button id="btnAdd" class="btn">ADD</button></div>
         </form>
      
-
       <div id="box-3" class="box-3">
       </div>
 

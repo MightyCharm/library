@@ -56,6 +56,7 @@ body {
     color: var(--col-header);
     font-size: 2rem;
     padding: 1rem;
+ 
 }
 
 .btnNewBook  {
@@ -80,26 +81,29 @@ body {
 
 /* form */
 .box-form { 
-    margin-top: 11%;
-    
     background-color: var(--bg-col-form);
     color: var(--col-form);
 
     width: 30%;
+    min-width: 400px;
     height: 70%;
+    min-height: 400px;
     position: absolute;
    
     font-size: 1.5rem;
-    padding: 1rem;
+    padding: 2rem;
 
     display: grid;
-    align-items: center;  
+    align-items: center;
+    border-radius: 0.1rem;
 }
 
 .divForm-1 {
     display: grid;
     grid-template-columns: 1fr 3fr;
     column-gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #fff;
 }
 
 .divForm-2 {
@@ -116,17 +120,23 @@ body {
     align-self: center;    
 }
 
+.errorInput {
+    background-color: #a00;
+    color: #fff;
+}
+
 .author,
 .title,
 .pages {
     font-size: 1.2rem;
-    text-align: center;
+    padding-left: 1rem;
+    width: 90%;
 }
 
 .radio {
     margin-top: 1px;
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
     align-self: center;
     justify-self: start;
 }
