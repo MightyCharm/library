@@ -17,6 +17,7 @@
     --col-card: #000;
     --col-link: #fff;
     --col-card-btn: #fff;
+    --border-card: #b7b7b7;
 }
 
 body {
@@ -56,6 +57,7 @@ body {
     color: var(--col-header);
     font-size: 2rem;
     padding: 1rem;
+    padding-left: 3rem;
  
 }
 
@@ -125,9 +127,9 @@ body {
     color: #fff;
 }
 
-.author,
-.title,
-.pages {
+.input-author,
+.input-title,
+.input-pages {
     font-size: 1.2rem;
     padding-left: 1rem;
     width: 90%;
@@ -144,7 +146,7 @@ body {
 .btn{
     width: 100px;
     height: 50px;
-    border-radius: 10px;
+    border: none;
     font-weight: bold;
 }
 
@@ -172,34 +174,63 @@ body {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr;
+    align-items: center;
 
     width:400px;
     height: 300px;
     background-color: var(--bg-col-card);
     color: var(--col-card);
     padding: 1rem;
-    border-radius: 15px;
+    border-radius: 5px;
     box-shadow: 2px 2px 5px;
 
     font-size: 1.2rem;
     font-weight: bold;
     word-break: break-word;
+
+    transition: transform 0.2s ease-in-out;
 }
 
 .card:hover {
     box-shadow: 5px 5px 10px #000;
+    transform: scale(1.02);
+}
+
+
+.card-title {
+    grid-column: 1 / 3;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+    border-bottom: 1px solid var(--border-card);
+
 }
 
 .card-author {
     grid-column: 1 / 3;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+    border-bottom: 1px solid var(--border-card);
 }
 
-.card-title {
-    grid-column: 1 / 3;
-}
 
 .card-pages {
     grid-column: 1 / 3;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    border-bottom: 1px solid var(--border-card);
+}
+
+.card-text {
+    
+}
+
+.card-value {
+    
 }
 
 .card-read {
@@ -216,7 +247,7 @@ body {
     height: 35px;
     width: 80px;
     justify-self: end;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     font-weight: bold;
 }
 
@@ -230,6 +261,6 @@ body {
 .card-btnRemove {
     grid-column: 1 / 3;
     height: 40px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     font-weight: bold;
 }

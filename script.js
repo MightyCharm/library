@@ -1,9 +1,9 @@
 const btnNewBook = document.querySelector("#btnNewBook");
 const btnAdd = document.querySelector("#btnAdd");
 
-const inputAuthor = document.querySelector("#author");
-const inputTitle = document.querySelector("#title");
-const inputPages = document.querySelector("#pages");
+const inputTitle = document.querySelector("#input-title");
+const inputAuthor = document.querySelector("#input-author");
+const inputPages = document.querySelector("#input-pages");
 
 const radioButtons = document.querySelectorAll(".radio");
 const radioFalse = document.querySelector("#radioFalse");
@@ -36,7 +36,7 @@ class Library {
         // if user input is correct, create Book object and add it to array
         if ((inputAuthor.value.length > 0) && (inputTitle.value.length > 0) && (inputPages.value.length > 0) && (Number(inputPages.value) > 0) && Number(inputPages.value[0] != 0)) {
             //e.preventDefault()
-            let obj = new Book(inputAuthor.value, inputTitle.value, inputPages.value, radioVal);  // create new object
+            let obj = new Book(inputTitle.value, inputAuthor.value, inputPages.value, radioVal);  // create new object
             this.addBookToLibrary(obj); // call function to push new object into an array        
             radioFalse.checked = true;
             this.checksPassed = true;
@@ -100,7 +100,7 @@ class GUI {
 
     constructor() {
         this.amount; // used for moving sidebar
-        this.speed = 2.5;
+        this.speed = 3.0;
         this.sidebarVisible = true;
         this.sidebarVisible = true;
 
@@ -130,11 +130,12 @@ class GUI {
     }
 
     moveSidebar() {
+        console.log(`library.checksPassed: ${library.checksPassed}`);
         if (library.checksPassed === true) {
             // if position right is equal to width, sidebar is visible on the page, so it should move out
             if (this.sidebarVisible) {
                 console.log("move that boi out of my sight!");
-
+                gui.resetColors();
                 let subtract = 0;
                 let widthSidebar = boxForm.getBoundingClientRect().width;
                 const moveSidebarOut = setInterval(() => {
@@ -149,7 +150,8 @@ class GUI {
                         boxForm.style.left = subtract + "px";
                         btnNewBook.disabled = false;
                         this.sidebarVisible = false;
-
+                        this.resetInput();
+                        btnAdd.disabled = true;
                         //console.log(`moveSidebarOut done: ${boxForm.style.left} widthSidebar: ${-widthSidebar} (should be same values)`);
                         clearInterval(moveSidebarOut);
 
@@ -164,6 +166,7 @@ class GUI {
             else {
                 // width sidebar changes if window gets bigger/smaller
                 // boxForm.style.left stays the same
+                btnNewBook.disabled = true;
                 this.setPositionSidebar();
 
                 let widthSidebar = boxForm.getBoundingClientRect().width;
@@ -180,11 +183,14 @@ class GUI {
                         this.sidebarVisible = true;
                         startVal = 0;
                         boxForm.style.left = startVal + "px",
-                        clearInterval(moveSidebarIn);
+                        btnAdd.disabled = false;
+                        library.checksPassed = false;
                         
+                        clearInterval(moveSidebarIn);
+
                     }
                     console.log(startVal);
-                   
+
                     boxForm.style.left = startVal + "px";
                 }, 1)
 
@@ -200,9 +206,9 @@ class GUI {
         library.myLibrary.forEach((obj) => {
             mainContent.innerHTML += `
                 <div id="card" class="card">
-                    <div class="card-author">${obj.author}</div>
-                    <div class="card-title">${obj.title}</div>
-                    <div class="card-pages">${obj.pages}</div>
+                    <div class="card-title"><span class="card-text">Title:</span><span class="card-value">${obj.title}</span></div>
+                    <div class="card-author"><span class="card-text">Author:</span><span class="card-value">${obj.author}</span></div>
+                    <div class="card-pages"><span class="card-text">Pages:</span><span class="card-value">${obj.pages}</span></div>
                     <div class="card-read">
                         <div id="card-read-txt" class="card-read-txt">${obj.read == "true" ? "already read" : "not read yet"}</div>
                         <button id="card-btnRead" class="card-btnRead" data-id="${obj.index}">READ</button>
@@ -249,6 +255,7 @@ class GUI {
         inputAuthor.value = "";
         inputTitle.value = "";
         inputPages.value = "";
+        
     }
 
     openForm() {
@@ -291,5 +298,6 @@ window.onresize = function () {
     }
 }
 
-boxForm.style.left = "0px";
+gui.setPositionSidebar();
+// boxForm.style.left = "0px";
 
