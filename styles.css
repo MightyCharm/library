@@ -98,6 +98,7 @@ body {
     display: grid;
     align-items: center;
     border-radius: 0.1rem;
+    z-index: 1;
 }
 
 .divForm-1 {

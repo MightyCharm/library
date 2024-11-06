@@ -100,7 +100,7 @@ class GUI {
 
     constructor() {
         this.amount; // used for moving sidebar
-        this.speed = 3.0;
+        this.speed = 4.0;
         this.sidebarVisible = true;
         this.sidebarVisible = true;
 
@@ -130,7 +130,6 @@ class GUI {
     }
 
     moveSidebar() {
-        console.log(`library.checksPassed: ${library.checksPassed}`);
         if (library.checksPassed === true) {
             // if position right is equal to width, sidebar is visible on the page, so it should move out
             if (this.sidebarVisible) {
@@ -299,5 +298,3 @@ window.onresize = function () {
 }
 
 gui.setPositionSidebar();
-// boxForm.style.left = "0px";
-
